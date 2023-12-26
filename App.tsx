@@ -5,9 +5,13 @@
  * @format
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Button,
+  Image,
+  ImageBackground,
+  Modal,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -25,94 +29,172 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const [showTipsModal, setShowTipsModal] = useState(false);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <View style={styles.contentContainer}>
+        <Modal visible={showTipsModal}>
+          <Image
+            style={styles.tipsImage}
+            source={require('./assets/images/tips.png')}
+          />
+          {/* <Text style={styles.tipsHeading}>
+            Here is how you navigate the guitar
+          </Text>
+          <Text style={styles.tipsSubHeading}>Fingers and Strings</Text>
+          <Text style={styles.numberingHeading}>Fingures Numbering</Text>
+          <Image source={require('./assets/images/fingureNumbering.png')} />
+
+          <Text> Tuning</Text>
+          <Text> TunStandard tuning: E2,A2,D3,G3,B3,E4ing</Text>
+          <Text> String Colors</Text>
+          <Text> 6th 5th 4th 3rd 2nd 1st</Text> */}
+          <Button
+            onPress={() => setShowTipsModal(false)}
+            title="Got it,Thanks!"></Button>
+        </Modal>
+        <View style={styles.header}>
+          <View style={styles.headerTextContainer}>
+            <Text style={styles.projectTitle}>Diachords</Text>
+          </View>
+          <View style={styles.navContainer}>
+            <Text style={styles.navtext}>View chords</Text>
+            <Text style={styles.navtext}>About</Text>
+            <Text onPress={() => setShowTipsModal(true)} style={styles.navtext}>
+              Tips
+            </Text>
+          </View>
         </View>
-      </ScrollView>
+
+        <View style={styles.container}>
+          <View style={styles.overlay}></View>
+          <ImageBackground
+            source={require('./assets/images/hero.jpg')}
+            style={styles.heroImg}
+            resizeMode="cover">
+            <View style={styles.buttonNtext}>
+              <Text style={styles.advertiseText}>
+                Find hundreds of chords and chord shapes on guitar...
+              </Text>
+              <View style={styles.buttonContainer}>
+                <Button title="explore chords"></Button>
+              </View>
+
+              <Text style={styles.advertiseText2}>
+                Learning new chords doesn't have to complicated
+              </Text>
+            </View>
+          </ImageBackground>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  tipsImage: {
+    borderRadius: 16,
+    marginBottom: 'auto',
   },
-  sectionTitle: {
+  tipsHeading: {
+    fontSize: 32,
+    color: '#111827',
+  },
+  tipsSubHeading: {
     fontSize: 24,
-    fontWeight: '600',
+    color: '#000',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  numberingHeading: {
+    fontSize: 16,
+    color: '#000',
   },
-  highlight: {
+  buttonNtext: {
+    zIndex: 10,
+  },
+  buttonContainer: {
+    width: 200,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 32,
+  },
+  advertiseText: {
+    color: '#1BD79E',
+    fontSize: 32,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  advertiseText2: {
+    marginTop: 72,
+    color: '#1BD79E',
+    fontSize: 32,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  overlay: {
+    backgroundColor: '#000000',
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 9,
+    opacity: 0.5,
+  },
+  projectTitle: {
+    color: '#1BD79E',
+    borderColor: 'red',
+    borderWidth: 2,
+    textTransform: 'uppercase',
     fontWeight: '700',
   },
+  headerTextContainer: {
+    alignSelf: 'flex-start',
+    borderColor: 'green',
+    borderWidth: 2,
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  header: {
+    borderWidth: 2,
+    width: '100%',
+    height: 32,
+    backgroundColor: '#000000',
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  navtext: {
+    color: '#ffff',
+    fontSize: 16,
+    fontWeight: '700',
+    marginLeft: 16,
+    textTransform: 'capitalize',
+  },
+  navContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginLeft: 'auto',
+    marginRight: 16,
+  },
+  container: {
+    borderWidth: 2,
+    borderColor: 'green',
+    height: '100%',
+    position: 'relative',
+  },
+  heroImg: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  backgroundImageContainer: {
+    borderWidth: 2,
+    borderColor: 'red',
+  },
+  contentContainer: {},
 });
 
 export default App;
