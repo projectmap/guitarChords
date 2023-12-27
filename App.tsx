@@ -4,7 +4,7 @@
  *
  * @format
  */
-
+<script src="http://localhost:8097"></script>;
 import React, {useState} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
@@ -28,70 +28,73 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-
+import {StackNavigation} from './navigations';
+import {NavigationContainer} from '@react-navigation/native';
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const [showTipsModal, setShowTipsModal] = useState(false);
-
+  console.log('check');
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <View style={styles.contentContainer}>
-        <Modal visible={showTipsModal}>
-          <Image
-            style={styles.tipsImage}
-            source={require('./assets/images/tips.png')}
-          />
-          {/* <Text style={styles.tipsHeading}>
-            Here is how you navigate the guitar
-          </Text>
-          <Text style={styles.tipsSubHeading}>Fingers and Strings</Text>
-          <Text style={styles.numberingHeading}>Fingures Numbering</Text>
-          <Image source={require('./assets/images/fingureNumbering.png')} />
+    <StackNavigation />
 
-          <Text> Tuning</Text>
-          <Text> TunStandard tuning: E2,A2,D3,G3,B3,E4ing</Text>
-          <Text> String Colors</Text>
-          <Text> 6th 5th 4th 3rd 2nd 1st</Text> */}
-          <Button
-            onPress={() => setShowTipsModal(false)}
-            title="Got it,Thanks!"></Button>
-        </Modal>
-        <View style={styles.header}>
-          <View style={styles.headerTextContainer}>
-            <Text style={styles.projectTitle}>Diachords</Text>
-          </View>
-          <View style={styles.navContainer}>
-            <Text style={styles.navtext}>View chords</Text>
-            <Text style={styles.navtext}>About</Text>
-            <Text onPress={() => setShowTipsModal(true)} style={styles.navtext}>
-              Tips
-            </Text>
-          </View>
-        </View>
+    // <SafeAreaView style={styles.container}>
+    //   <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+    //   <View style={styles.contentContainer}>
+    //     <Modal visible={showTipsModal}>
+    //       <Image
+    //         style={styles.tipsImage}
+    //         source={require('./assets/images/tips.png')}
+    //       />
+    //       {/* <Text style={styles.tipsHeading}>
+    //         Here is how you navigate the guitar
+    //       </Text>
+    //       <Text style={styles.tipsSubHeading}>Fingers and Strings</Text>
+    //       <Text style={styles.numberingHeading}>Fingures Numbering</Text>
+    //       <Image source={require('./assets/images/fingureNumbering.png')} />
 
-        <View style={styles.container}>
-          <View style={styles.overlay}></View>
-          <ImageBackground
-            source={require('./assets/images/hero.jpg')}
-            style={styles.heroImg}
-            resizeMode="cover">
-            <View style={styles.buttonNtext}>
-              <Text style={styles.advertiseText}>
-                Find hundreds of chords and chord shapes on guitar...
-              </Text>
-              <View style={styles.buttonContainer}>
-                <Button title="explore chords"></Button>
-              </View>
+    //       <Text> Tuning</Text>
+    //       <Text> TunStandard tuning: E2,A2,D3,G3,B3,E4ing</Text>
+    //       <Text> String Colors</Text>
+    //       <Text> 6th 5th 4th 3rd 2nd 1st</Text> */}
+    //       <Button
+    //         onPress={() => setShowTipsModal(false)}
+    //         title="Got it,Thanks!"></Button>
+    //     </Modal>
+    //     <View style={styles.header}>
+    //       <View style={styles.headerTextContainer}>
+    //         <Text style={styles.projectTitle}>Diachords</Text>
+    //       </View>
+    //       <View style={styles.navContainer}>
+    //         <Text style={styles.navtext}>View chords</Text>
+    //         <Text style={styles.navtext}>About</Text>
+    //         <Text onPress={() => setShowTipsModal(true)} style={styles.navtext}>
+    //           Tips
+    //         </Text>
+    //       </View>
+    //     </View>
 
-              <Text style={styles.advertiseText2}>
-                Learning new chords doesn't have to complicated
-              </Text>
-            </View>
-          </ImageBackground>
-        </View>
-      </View>
-    </SafeAreaView>
+    //     <View style={styles.container}>
+    //       <View style={styles.overlay}></View>
+    //       <ImageBackground
+    //         source={require('./assets/images/hero.jpg')}
+    //         style={styles.heroImg}
+    //         resizeMode="cover">
+    //         <View style={styles.buttonNtext}>
+    //           <Text style={styles.advertiseText}>
+    //             Find hundreds of chords and chord shapes on guitar...
+    //           </Text>
+    //           <View style={styles.buttonContainer}>
+    //             <Button title="explore chords"></Button>
+    //           </View>
+
+    //           <Text style={styles.advertiseText2}>
+    //             Learning new chords doesn't have to complicated
+    //           </Text>
+    //         </View>
+    //       </ImageBackground>
+    //     </View>
+    //   </View>
+    // </SafeAreaView>
   );
 }
 
