@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         borderBottomWidth:6,
         height:100,
         borderRightWidth:2,
-        // borderRightColor:'yellow'
+        
      
     },
     freeBoard:{
@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
         position:'relative'
     },
     stringsContainer:{
-        // borderColor:'pink',
         borderWidth:2,
         alignSelf:'center',   
         marginLeft:35,
