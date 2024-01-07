@@ -1,18 +1,33 @@
 import React, { useState } from 'react'
-import { Modal, SectionList, StyleSheet, Text, View } from 'react-native'
+import { Modal, SectionList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import chordsJson from "./assets/chordsJson/chords.json"
 import {chordsListObj} from './data/chordsList'
 
 function ChordsShapes() {
     const [chords,setChords]=useState([])
-    const [openChordModal,setOpenChordModal]=useState(false)
+    const [showList,setShowList]=useState(false)
     const [searchedSingleChordFamily,setSearchedSingleChordFamily]=useState([])
     const [filteredChords,setFilteredChords]=useState([])
     const[datatoshowfromfilter,setdatatoshow]=useState(false)
 
-    const strings2=[1,1,1,1,1]
-    const strings=[1,1,1,1,1]
+    const strings2=[6,5,4,3,2,1]
+    const strings=[1,2,3,4,5]
+
+    const checkIfUserIsSearching=(text)=>{
+        console.log('searching',text)
+        if(!text){
+            setShowList(false)
+        }else{
+            setShowList(true)
+        }
+    }
+
+    const handleChordSelection=(item)=>{
+console.log(item,'selected',chordsJson.EADGBE[item])
+setShowList(false)
+
+    }
 
     const filterChords=(text)=>{
         if(text){
@@ -21,12 +36,13 @@ function ChordsShapes() {
             setdatatoshow(false)
         }
         let filteredChords=searchedSingleChordFamily.filter(item=>item.includes(text))
-        console.log(filterChords,'filtered',searchedSingleChordFamily,'abc'.includes('a'))
+        console.log('filtered',searchedSingleChordFamily,'abc'.includes('a'))
         setFilteredChords(filteredChords)
      
     }
   
     const updateSearchedChords=(text)=>{
+        checkIfUserIsSearching(text)
         if(text.length===1){
             console.log('using')
             setdatatoshow(false)
@@ -37,27 +53,18 @@ function ChordsShapes() {
             console.log('filtering',text.length,text.toString())
             setdatatoshow(true)
             let filteredChordsLocal
-            // if(searchedSingleChordFamily){
+            
 
                 filteredChordsLocal=searchedSingleChordFamily?.filter(item=>item.toString().toLowerCase().includes(text?.toString().toLowerCase()))
          setFilteredChords(filteredChordsLocal)  
-        // }else{
-        //     filteredChordsLocal=filteredChords?.filter(item=>item.toLowerCase().includes(text?.toLowerCase()))
-        //     setFilteredChords(filteredChordsLocal)  
-        //     }
+      
         }
-        // text.length?setOpenChordModal(true):setOpenChordModal(false)
+       
         
         setSearchedSingleChordFamily(chordsListObj[text.toLowerCase()])
-        // setdatatoshow(chordsListObj[text])
-        // for(val of chordsJson.EADGBE) {
-        //     console.log(val,'obj value'
-        // }
-      
-        // const chordsData={a:[chordsJson]}
-        // const foundChords=chordsJson
+       
         console.log(text,'chords')
-        // setChords()
+        
     }
     // const strings=[{stringNo:6},{stringNo:5},{stringNo:4},{stringNo:3},{stringNo:2},{stringNo:1}]
   return (
@@ -66,25 +73,42 @@ function ChordsShapes() {
     <View>
 <TextInput onChangeText={(text)=>updateSearchedChords(text)} style={{backgroundColor:'white'}} placeholder='Search your chords here......'/>
 
-<View style={styles.chordsModal}>
-    {/* <Modal visible={openChordModal}><Text>hello</Text> */}
-    {/* <TextInput onChangeText={(text)=>filterChords(text)} style={{backgroundColor:'white'}} placeholder='Filter your chords here......'/> */}
-    <FlatList
+{showList&&<View style={styles.chordsModal}>
+    
+   <FlatList
     numColumns={7}
     keyExtractor={(item, index) => index+item}
      contentContainerStyle={styles.chordlistContainer} 
-     style={styles.searchedChordsContainer} data={datatoshowfromfilter? filteredChords:searchedSingleChordFamily}  renderItem={({item})=><View><Text style={styles.searchedChordsName}>{item}
-    </Text></View>}/>
-    {/* </Modal> */}
-    </View>
+     style={styles.searchedChordsContainer} data={datatoshowfromfilter? filteredChords:searchedSingleChordFamily}  renderItem={({item})=><TouchableOpacity onPress={()=>handleChordSelection(item)}><View><Text style={styles.searchedChordsName}>{item}
+    </Text></View></TouchableOpacity>}/>
+    </View>}
     </View>
 
 <View style={styles.allstrings}>
-    <View></View>
-    {/* <SectionList  keyExtractor={(item, index) =>  index} sections={strings} renderItem={({item})=><View  style={styles.strings2}><Text style={styles.stringNo}></Text></View>}  renderSectionHeader={({item}) => (
-        <Text style={styles.header}>test</Text>
-      )}/> */}
-<FlatList  style={styles.stringsContainer} data={strings} renderItem={({item})=><FlatList horizontal style={styles.fritContainer} data={strings2} renderItem={()=><View  style={styles.strings}><Text style={styles.stringNo}>s</Text></View>}/>}/>
+    <View style={styles.stringNoContainer}>
+    <Text style={styles.stringText}>6</Text> 
+    <Text style={styles.stringText}>5</Text> 
+    <Text style={styles.stringText}>4</Text> 
+    <Text style={styles.stringText}>3</Text> 
+    <Text style={styles.stringText}>2</Text><Text style={styles.stringText}>1</Text></View>
+    
+   
+   
+<FlatList  style={styles.stringsContainer} data={strings} renderItem={({item,index})=><View style={styles.stringsWrapper}>
+
+ {index===0&&<View style={styles.stringNoContainer}>
+    <Text style={styles.stringText}>6</Text> 
+    <Text style={styles.stringText}>5</Text> 
+    <Text style={styles.stringText}>4</Text> 
+    <Text style={styles.stringText}>3</Text> 
+    <Text style={styles.stringText}>2</Text>
+    <Text style={styles.stringText}>1</Text></View>
+
+ }   
+<FlatList horizontal contentContainerStyle={styles.fritContainer} 
+style={styles.fritContainerInner} 
+data={strings2} renderItem={({item:data})=><View  style={styles.strings}><Text style={styles.stringNo}></Text></View>}/></View>}/>
+
 </View>
 <View style={styles.guitarholeContainer}><View style={styles.guitarHole}></View></View>
 
@@ -93,6 +117,29 @@ function ChordsShapes() {
   )
 }
 const styles = StyleSheet.create({
+    // stringsWrapper:{
+    //     borderColor:'white',
+    //     borderWidth:2, 
+    //     height:100,
+    // marginTop:4,
+    // // width:300,
+    // display:'flex',
+    // flexDirection:'row',
+    // justifyContent:'flex-end',
+    // },
+    stringNoContainer:{
+        borderColor:'green',
+        borderWidth:2,
+        display:'flex',
+        flexDirection:'row',
+        gap:40,
+        width:262
+       
+    },
+    stringText:{
+        color:'white',
+        // width:60
+    },
     chordsModal:{
         borderColor:'green',
         borderWidth:2,
@@ -125,10 +172,21 @@ const styles = StyleSheet.create({
     marginLeft:8
 },
     fritContainer:{
+       
+        height:100,
+       
+        display:'flex',
+        justifyContent:'flex-end',
+        gap:50
+
+        
+     
+    },
+    fritContainerInner:{
         borderColor:'white',
         borderBottomWidth:6,
         height:100,
-        borderRightWidth:2,
+        borderTopWidth:2,
         
      
     },
@@ -155,7 +213,7 @@ const styles = StyleSheet.create({
        
     },
     chordsInfoContainer: {
-        flex:1,
+    flex:1,
       borderWidth:2,
      borderColor:'red',
      backgroundColor:'#000000'
@@ -167,20 +225,17 @@ const styles = StyleSheet.create({
         position:'relative'
     },
     stringsContainer:{
-        borderWidth:2,
+        // borderWidth:2,
         alignSelf:'center',   
         marginLeft:35,
         borderColor:'red',
-        
-      
+        marginTop:32
     },
   
     strings:{
-        // height:'100%',
-     width:60,
-            borderWidth:2,
-        borderLeftColor:'white',
-        
+     borderLeftWidth:2,
+        borderColor:'white',
+        position:'relative'
         
     },
     strings2:{
@@ -189,8 +244,18 @@ const styles = StyleSheet.create({
         borderWidth:2,
         borderLeftColor:'#fff',
     },
+    stringNoLast:{
+        color:'white',
+        position:'absolute',
+        left:0,
+        top:0
+    },
     stringNo:{
-        color:'#ffff'
+        color:'#ffff',
+        position:'absolute',
+        right:0,
+        top:0,
+     
     },
     allstrings:{
        borderColor:'green' ,
