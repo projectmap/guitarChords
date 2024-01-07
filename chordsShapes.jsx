@@ -11,7 +11,7 @@ function ChordsShapes() {
     const [filteredChords,setFilteredChords]=useState([])
     const[datatoshowfromfilter,setdatatoshow]=useState(false)
 
-    const strings2=[1,1,1,1,1]
+    const strings2=[6,5,4,3,2,1]
     const strings=[1,2,3,4,5]
 
     const checkIfUserIsSearching=(text)=>{
@@ -85,15 +85,30 @@ setShowList(false)
     </View>
 
 <View style={styles.allstrings}>
-    <View style={styles.stringNoContainer}><Text style={styles.stringText}>1</Text> 
-    <Text style={styles.stringText}>1</Text> 
-    <Text style={styles.stringText}>1</Text> 
-    <Text style={styles.stringText}>1</Text> 
-    <Text style={styles.stringText}>1</Text> 
+    <View style={styles.stringNoContainer}>
+    <Text style={styles.stringText}>6</Text> 
+    <Text style={styles.stringText}>5</Text> 
+    <Text style={styles.stringText}>4</Text> 
+    <Text style={styles.stringText}>3</Text> 
+    <Text style={styles.stringText}>2</Text><Text style={styles.stringText}>1</Text></View>
+    
+   
+   
+<FlatList  style={styles.stringsContainer} data={strings} renderItem={({item,index})=><View style={styles.stringsWrapper}>
+
+ {index===0&&<View style={styles.stringNoContainer}>
+    <Text style={styles.stringText}>6</Text> 
+    <Text style={styles.stringText}>5</Text> 
+    <Text style={styles.stringText}>4</Text> 
+    <Text style={styles.stringText}>3</Text> 
+    <Text style={styles.stringText}>2</Text>
     <Text style={styles.stringText}>1</Text></View>
-   
-   
-<FlatList  style={styles.stringsContainer} data={strings} renderItem={({item})=><FlatList horizontal style={styles.fritContainer} data={strings2} renderItem={({data})=><View  style={styles.strings}><Text style={styles.stringNo}>{item}</Text></View>}/>}/>
+
+ }   
+<FlatList horizontal contentContainerStyle={styles.fritContainer} 
+style={styles.fritContainerInner} 
+data={strings2} renderItem={({item:data})=><View  style={styles.strings}><Text style={styles.stringNo}></Text></View>}/></View>}/>
+
 </View>
 <View style={styles.guitarholeContainer}><View style={styles.guitarHole}></View></View>
 
@@ -102,17 +117,28 @@ setShowList(false)
   )
 }
 const styles = StyleSheet.create({
+    // stringsWrapper:{
+    //     borderColor:'white',
+    //     borderWidth:2, 
+    //     height:100,
+    // marginTop:4,
+    // // width:300,
+    // display:'flex',
+    // flexDirection:'row',
+    // justifyContent:'flex-end',
+    // },
     stringNoContainer:{
         borderColor:'green',
         borderWidth:2,
         display:'flex',
         flexDirection:'row',
-        marginLeft:35,
-        marginRight:32
+        gap:40,
+        width:262
+       
     },
     stringText:{
         color:'white',
-        width:60
+        // width:60
     },
     chordsModal:{
         borderColor:'green',
@@ -146,10 +172,21 @@ const styles = StyleSheet.create({
     marginLeft:8
 },
     fritContainer:{
+       
+        height:100,
+       
+        display:'flex',
+        justifyContent:'flex-end',
+        gap:50
+
+        
+     
+    },
+    fritContainerInner:{
         borderColor:'white',
         borderBottomWidth:6,
         height:100,
-        borderRightWidth:2,
+        borderTopWidth:2,
         
      
     },
@@ -176,7 +213,7 @@ const styles = StyleSheet.create({
        
     },
     chordsInfoContainer: {
-        flex:1,
+    flex:1,
       borderWidth:2,
      borderColor:'red',
      backgroundColor:'#000000'
@@ -188,22 +225,17 @@ const styles = StyleSheet.create({
         position:'relative'
     },
     stringsContainer:{
-        borderWidth:2,
+        // borderWidth:2,
         alignSelf:'center',   
         marginLeft:35,
-        borderColor:'white',
+        borderColor:'red',
         marginTop:32
-        
-      
     },
   
     strings:{
-        // height:'100%',
-     width:60,
-            borderWidth:2,
-        borderLeftColor:'white',
+     borderLeftWidth:2,
+        borderColor:'white',
         position:'relative'
-        
         
     },
     strings2:{
@@ -212,11 +244,18 @@ const styles = StyleSheet.create({
         borderWidth:2,
         borderLeftColor:'#fff',
     },
+    stringNoLast:{
+        color:'white',
+        position:'absolute',
+        left:0,
+        top:0
+    },
     stringNo:{
         color:'#ffff',
         position:'absolute',
         right:0,
-        top:0
+        top:0,
+     
     },
     allstrings:{
        borderColor:'green' ,
