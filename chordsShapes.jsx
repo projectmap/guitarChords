@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, SectionList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ImageBackground, Modal, SectionList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import chordsJson from "./assets/chordsJson/chords.json"
 import {chordsListObj} from './data/chordsList'
@@ -10,9 +10,9 @@ function ChordsShapes() {
     const [searchedSingleChordFamily,setSearchedSingleChordFamily]=useState([])
     const [filteredChords,setFilteredChords]=useState([])
     const[datatoshowfromfilter,setdatatoshow]=useState(false)
-    const [selectedChordName,setSelectedChordName]=useState('')
-
-    const [selectedChordData,setSelectedChordData]=useState({highestFreetNo:0,positions:[]})
+    const [selectedChordName,setSelectedChordName]=useState('A')
+ const [showGuitarHole,setShowGuitarHole]=useState(true)
+    const [selectedChordData,setSelectedChordData]=useState({highestFreetNo:1,positions:[]})
 
     const strings2=[5,4,3,2,1,0]
     const strings=[1,2,3,4,5]
@@ -21,9 +21,16 @@ function ChordsShapes() {
         console.log('searching',text)
         if(!text){
             setShowList(false)
+
         }else{
             setShowList(true)
+            setShowGuitarHole(false)
         }
+    }
+
+
+    const hideGuitarHole=()=>{
+        setShowGuitarHole(false)
     }
 
 useEffect(()=>{
@@ -44,6 +51,7 @@ console.log(selectedChordData,'chord data')
    setSelectedChordName(item)
 console.log(item,'selected')
 setShowList(false)
+setShowGuitarHole(true)
 
     }
 
@@ -89,10 +97,10 @@ setShowList(false)
    <View style={styles.chordsInfoContainer}>
 <View style={styles.chordsInfoHeader}>
     <View>
-<TextInput onChangeText={(text)=>updateSearchedChords(text)} style={{backgroundColor:'white'}} placeholder='Search your chords here......'/>
+<TextInput  onBlur={()=>setShowGuitarHole(true)} onFocus={()=>hideGuitarHole()} onChangeText={(text)=>updateSearchedChords(text)} style={{backgroundColor:'white',marginTop:4, backgroundColor:'#2d2d2d',borderRadius:12, color: '#1BD79E',fontSize:16}}   placeholderTextColor="#1BD79E"  placeholder='Search your chords here......'/>
 
 {showList&&<View style={styles.chordsModal}>
-    
+   
    <FlatList
     numColumns={7}
     keyExtractor={(item, index) => index+item}
@@ -105,8 +113,10 @@ setShowList(false)
 <View style={styles.allstrings}>
   
     
+<Text style={styles.selectedChordNameText}>{selectedChordName}</Text>
    
    
+   <View style={styles.stringNfreetContainer}>
 <FlatList  style={styles.stringsContainer} data={strings} renderItem={({item,index})=><View style={styles.stringsWrapper}>
 
  {index===0&&<View style={styles.stringNoContainer}>
@@ -120,7 +130,7 @@ setShowList(false)
  }   
 <FlatList horizontal contentContainerStyle={styles.fritContainer} 
 style={styles.fritContainerInner} 
-data={strings2} renderItem={({item:data,index:idx})=><View  style={styles.strings}>
+data={strings2} renderItem={({item:data,index:idx})=><View  style={styles["string"+(data)]}>
 {
 selectedChordData.positions[idx]===selectedChordData.highestFreetNo-4+item&&
 <Text
@@ -132,23 +142,29 @@ selectedChordData.positions[idx]===selectedChordData.highestFreetNo-4+item&&
     </View>}/>
 
 </View>
-<View style={styles.guitarholeContainer}><View style={styles.guitarHole}></View></View>
 
+{showGuitarHole&&<View style={styles.guitarholeContainer}><View style={styles.guitarHole}></View></View>}
+
+</View>
 </View>
    </View>
   )
 }
 const styles = StyleSheet.create({
-    // stringsWrapper:{
-    //     borderColor:'white',
-    //     borderWidth:2, 
-    //     // height:100,
+  
+    stringNfreetContainer:{
+        alignItems:'center',
+        zIndex:9
+    },
 
-    // padding:12
-
-    // },
+    selectedChordNameText:{
+        color: '#1BD79E',
+        fontSize:20,
+        marginRight:'auto',
+        marginLeft:'auto',
+        marginTop:8
+    },
     stringNoContainer:{
-        borderColor:'green',
         borderWidth:2,
         display:'flex',
         flexDirection:'row',
@@ -158,17 +174,12 @@ const styles = StyleSheet.create({
     },
     stringText:{
         color:'white',
-        // width:60
     },
     chordsModal:{
-        borderColor:'green',
         borderWidth:2,
         height:300,
         zIndex:9,
         backgroundColor:'black'
-    
-        
-       
     },
 
 
@@ -178,14 +189,18 @@ const styles = StyleSheet.create({
        
         alignItems:'flex-start',
         justifyContent:'center',
-        borderColor:'green',
-        borderWidth:2,
         
        
     },
     searchedChordsContainer:{
-        borderColor:'green',
-        borderWidth:2,
+  
+        paddingTop:8,
+        paddingRight:4,
+        paddingLeft:4,
+        paddingBottom:4,
+        backgroundColor:'#2d2d2d',
+        borderRadius:12
+        
        
     },
     searchedChordsName:{
@@ -200,8 +215,7 @@ const styles = StyleSheet.create({
         display:'flex',
         justifyContent:'flex-end',
         gap:50,
-        borderColor:'red',
-        borderWidth:2,
+       
         
         
 
@@ -212,6 +226,7 @@ const styles = StyleSheet.create({
         borderColor:'white',
         borderBottomWidth:6,
         height:100,
+        width:265,
         borderTopWidth:2,
     
 
@@ -219,18 +234,14 @@ const styles = StyleSheet.create({
         
      
     },
-    freeBoard:{
-        borderColor:'yellow',
-        borderWidth:2
-    },
+  
     guitarholeContainer:{
-        borderColor:'red',
-        borderWidth:2,
+       
         position:'absolute',
         bottom:0,
         left:0,
         width:'100%',
-        alignItems:'center'
+        alignItems:'center',
     },
     guitarHole:{
         borderColor:'black',
@@ -243,30 +254,66 @@ const styles = StyleSheet.create({
     },
     chordsInfoContainer: {
     flex:1,
-      borderWidth:2,
-     borderColor:'red',
+   
      backgroundColor:'#000000'
     },
     chordsInfoHeader: {
-        borderWidth:2,
-        borderColor:'green',
+      
         flex:1,
         position:'relative'
     },
     stringsContainer:{
-        // borderWidth:2,
-        alignSelf:'center',   
-        marginLeft:35,
-        borderColor:'red',
-        marginTop:32
+       
+        marginTop:8,
+        marginLeft:'auto',
+        marginRight:'auto',
+        
     },
   
-    strings:{
+    string:{
      borderLeftWidth:2,
         borderColor:'white',
         position:'relative'
         
     },
+    string0:{
+        borderLeftWidth:1,
+           borderColor:'white',
+           position:'relative',
+      
+           
+       },
+    string1:{
+        borderLeftWidth:1,
+           borderColor:'white',
+           position:'relative'
+           
+       },
+       string2:{
+        borderLeftWidth:2,
+           borderColor:'white',
+           position:'relative'
+           
+       },
+       string3:{
+        borderLeftWidth:2,
+           borderColor:'white',
+           position:'relative'
+           
+       },
+       string4:{
+        borderLeftWidth:4,
+           borderColor:'white',
+           position:'relative'
+           
+       },
+       string5:{
+        borderLeftWidth:4,
+           borderColor:'white',
+           position:'relative'
+           
+       },
+    
     strings2:{
         height:100,
         marginTop:4,
@@ -300,10 +347,11 @@ const styles = StyleSheet.create({
         
     },
     allstrings:{
-       borderColor:'green' ,
-       borderWidth:2,
+    //    borderColor:'white' ,
+    //    borderWidth:2,
        flex:1,
        zIndex:99,
+      
     }
 });
 export default ChordsShapes
