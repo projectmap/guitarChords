@@ -113,15 +113,11 @@ const styles = StyleSheet.create({
     },
     projectTitle: {
       color: '#1BD79E',
-      borderColor: 'red',
-      borderWidth: 2,
       textTransform: 'uppercase',
       fontWeight: '700',
     },
     headerTextContainer: {
       alignSelf: 'flex-start',
-      borderColor: 'green',
-      borderWidth: 2,
       display: 'flex',
       flexDirection: 'row',
     },
@@ -147,8 +143,7 @@ const styles = StyleSheet.create({
       marginRight: 16,
     },
     container: {
-      borderWidth: 2,
-      borderColor: 'green',
+   
       height: '100%',
       position: 'relative',
     },
