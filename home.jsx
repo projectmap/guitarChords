@@ -32,7 +32,7 @@ export default function Home({navigation}) {
             <Text onPress={() => {setShowTipsModal(true)
             console.log('modal opened')
             }} style={styles.navtext}>
-              Tips
+              Hints
             </Text>
           </View>
         </View>
