@@ -5,10 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 export default function Home({navigation}) {
     const [showTipsModal, setShowTipsModal] = useState(false);
     const navigateToChordsPage=()=>{
-        console.log('navigation')
         navigation.navigate('Chords Shapes')
     }
-    console.log('home')
+    
   return (
     <SafeAreaView  style={styles.container}>
       <StatusBar barStyle='light-content' />
@@ -49,7 +48,7 @@ export default function Home({navigation}) {
                 Find hundreds of chords and chord shapes on guitar...
               </Text>
               <View style={styles.buttonContainer}>
-                <Button title="explore chords"></Button>
+                <Button onPress={navigateToChordsPage} title="explore chords"></Button>
               </View>
 
               <Text style={styles.advertiseText2}>
