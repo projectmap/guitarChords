@@ -111,9 +111,17 @@ setShowGuitarHole(true)
     </View>
 
 <View style={styles.allstrings}>
-  
-    
+  <View style={styles.chordnameNvaritation}>
 <Text style={styles.selectedChordNameText}>{selectedChordName}</Text>
+
+<View style={styles.variationsContainer}>
+    <View style={styles.arrow}><Text style={styles.selectedChordNameTextArrow}>{'<'}</Text></View>
+    <Text style={{...styles.selectedChordNameVariationText,...styles.margin12}}>Variations: 1</Text>
+    <View style={styles.arrow}><Text style={styles.selectedChordNameTextArrow}>{'>'}</Text></View>
+    <View/>
+</View>
+  </View>
+    
    
    
    <View style={styles.stringNfreetContainer}>
@@ -151,6 +159,30 @@ selectedChordData.positions[idx]===selectedChordData.highestFreetNo-4+item&&
   )
 }
 const styles = StyleSheet.create({
+    margin12:{
+        marginLeft:12,
+        marginRight:12
+    },
+    variationsContainer:{
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        marginTop:8
+    },
+    arrow:{
+        height:24,
+        width:24,
+        backgroundColor:'white',
+        borderRadius:12,
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center',
+        
+    },
+    chordnameNvaritation:{
+        display:'flex',
+        flexDirection:'row'
+    },
   
     stringNfreetContainer:{
         alignItems:'center',
@@ -163,7 +195,21 @@ const styles = StyleSheet.create({
         marginRight:'auto',
         marginLeft:'auto',
         marginTop:8
+    },  
+     selectedChordNameVariationText:{
+        color: '#1BD79E',
+        fontSize:20,
+        marginRight:'auto',
+        marginLeft:'auto',
+     
     },
+    selectedChordNameTextArrow:{
+        color: '#1BD79E',
+        fontSize:16,
+    
+        
+    },
+
     stringNoContainer:{
         borderWidth:2,
         display:'flex',
