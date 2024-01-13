@@ -5,17 +5,27 @@ import chordsJson from "./assets/chordsJson/chords.json"
 import {chordsListObj} from './data/chordsList'
 
 function ChordsShapes() {
-    const [chords,setChords]=useState([])
+    const [chordVariationNo,setChordVariationNo]=useState(0)
     const [showList,setShowList]=useState(false)
     const [searchedSingleChordFamily,setSearchedSingleChordFamily]=useState([])
     const [filteredChords,setFilteredChords]=useState([])
     const[datatoshowfromfilter,setdatatoshow]=useState(false)
     const [selectedChordName,setSelectedChordName]=useState('A')
  const [showGuitarHole,setShowGuitarHole]=useState(true)
-    const [selectedChordData,setSelectedChordData]=useState({highestFreetNo:1,positions:[]})
+    const [selectedChordData,setSelectedChordData]=useState({highestFreetNo:1,positions:[],totalVariations:1})
 
     const strings2=[5,4,3,2,1,0]
     const strings=[1,2,3,4,5]
+
+    const updateChordVariation=(updateType)=>{
+        
+if(updateType==='inc'&&selectedChordData.totalVariations!==chordVariationNo+1){
+    setChordVariationNo(prevState=>prevState+1)
+}else if(updateType==='dec'&&chordVariationNo>0){
+    setChordVariationNo(prevState=>prevState-1)
+}
+    }
+
 
     const checkIfUserIsSearching=(text)=>{
         console.log('searching',text)
@@ -34,24 +44,26 @@ function ChordsShapes() {
     }
 
 useEffect(()=>{
-    console.log('just selected')
+    const _variationNo=chordsJson.EADGBE[selectedChordName].length
+    console.log('just selected',_variationNo)
     if(selectedChordName){
-        const positionArray=   chordsJson.EADGBE[selectedChordName][0].p.split(',')
+        const positionArray=   chordsJson.EADGBE[selectedChordName][chordVariationNo].p.split(',')
         .map(item => (isNaN(item) ? 0 : Number(item)));
         let highestfreet=Math.max(...positionArray)
-        setSelectedChordData(({positions:positionArray,highestFreetNo:highestfreet}))
+        setSelectedChordData(({positions:positionArray,highestFreetNo:highestfreet,totalVariations:_variationNo}))
     }
   
-},[selectedChordName])
+},[selectedChordName,chordVariationNo])
 console.log(selectedChordData,'chord data')
 
     const handleChordSelection=(item)=>{
       
    
    setSelectedChordName(item)
-console.log(item,'selected')
-setShowList(false)
-setShowGuitarHole(true)
+  console.log(item,'selected')
+    setShowList(false)
+     setShowGuitarHole(true)
+     setChordVariationNo(0)
 
     }
 
@@ -115,9 +127,9 @@ setShowGuitarHole(true)
 <Text style={styles.selectedChordNameText}>{selectedChordName}</Text>
 
 <View style={styles.variationsContainer}>
-    <View style={styles.arrow}><Text style={styles.selectedChordNameTextArrow}>{'<'}</Text></View>
-    <Text style={{...styles.selectedChordNameVariationText,...styles.margin12}}>Variations: 1</Text>
-    <View style={styles.arrow}><Text style={styles.selectedChordNameTextArrow}>{'>'}</Text></View>
+    <View style={{...styles.arrow,...{opacity:chordVariationNo===0?0.6:1}}}><Text onPress={()=>updateChordVariation('dec')} style={styles.selectedChordNameTextArrow}>{'<'}</Text></View>
+    <Text style={{...styles.selectedChordNameVariationText,...styles.margin12}}>Variations: {chordVariationNo+1}</Text>
+    <View  style={{...styles.arrow,...{opacity:chordVariationNo===selectedChordData.totalVariations-1?0.6:1}}}><Text onPress={()=>updateChordVariation('inc')} style={styles.selectedChordNameTextArrow}>{'>'}</Text></View>
     <View/>
 </View>
   </View>
