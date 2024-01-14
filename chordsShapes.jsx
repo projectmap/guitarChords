@@ -128,7 +128,7 @@ console.log(selectedChordData,'chord data')
 
 <View style={styles.variationsContainer}>
     <View style={{...styles.arrow,...{opacity:chordVariationNo===0?0.6:1}}}><Text onPress={()=>updateChordVariation('dec')} style={styles.selectedChordNameTextArrow}>{'<'}</Text></View>
-    <Text style={{...styles.selectedChordNameVariationText,...styles.margin12}}>Variations: {chordVariationNo+1}</Text>
+    <Text style={{...styles.selectedChordNameVariationText,...styles.margin12}}>Variation: {chordVariationNo+1}</Text>
     <View  style={{...styles.arrow,...{opacity:chordVariationNo===selectedChordData.totalVariations-1?0.6:1}}}><Text onPress={()=>updateChordVariation('inc')} style={styles.selectedChordNameTextArrow}>{'>'}</Text></View>
     <View/>
 </View>
