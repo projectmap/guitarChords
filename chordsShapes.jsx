@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ImageBackground, Modal, SectionList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {  StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import chordsJson from "./assets/chordsJson/chords.json"
 import {chordsListObj} from './data/chordsList'
@@ -127,9 +127,9 @@ console.log(selectedChordData,'chord data')
 <Text style={styles.selectedChordNameText}>{selectedChordName}</Text>
 
 <View style={styles.variationsContainer}>
-    <View style={{...styles.arrow,...{opacity:chordVariationNo===0?0.6:1}}}><Text onPress={()=>updateChordVariation('dec')} style={styles.selectedChordNameTextArrow}>{'<'}</Text></View>
+    <View style={{...styles.arrow,...{opacity:chordVariationNo===0?0.6:1}}}><Text onPress={()=>updateChordVariation('dec')} style={styles.selectedChordNameTextArrow}>{'-'}</Text></View>
     <Text style={{...styles.selectedChordNameVariationText,...styles.margin12}}>Variation: {chordVariationNo+1}</Text>
-    <View  style={{...styles.arrow,...{opacity:chordVariationNo===selectedChordData.totalVariations-1?0.6:1}}}><Text onPress={()=>updateChordVariation('inc')} style={styles.selectedChordNameTextArrow}>{'>'}</Text></View>
+    <View  style={{...styles.arrow,...{opacity:chordVariationNo===selectedChordData.totalVariations-1?0.6:1}}}><Text onPress={()=>updateChordVariation('inc')} style={styles.selectedChordNameTextArrow}>{'+'}</Text></View>
     <View/>
 </View>
   </View>
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
         display:'flex',
         alignItems:'center',
         justifyContent:'center',
-        
+    
     },
     chordnameNvaritation:{
         display:'flex',
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     },
     selectedChordNameTextArrow:{
         color: '#1BD79E',
-        fontSize:16,
+        fontSize:18,
     
         
     },
