@@ -16,6 +16,7 @@ function ChordsShapes() {
 
     const strings2=[5,4,3,2,1,0]
     const strings=[1,2,3,4,5]
+    const freetIndicators={3:true,5:true,7:true,9:true,12:true,15:true,17:true,19:true}
 
     const updateChordVariation=(updateType)=>{
         
@@ -151,6 +152,9 @@ console.log(selectedChordData,'chord data')
 <FlatList horizontal contentContainerStyle={styles.fritContainer} 
 style={styles.fritContainerInner} 
 data={strings2} renderItem={({item:data,index:idx})=><View  style={styles["string"+(data)]}>
+
+    {idx===3&&selectedChordData.highestFreetNo<6&&freetIndicators?.[item]&&<View style={styles.freetNoIndicator}/>}
+    {idx===3&& freetIndicators?.[selectedChordData.highestFreetNo-4+item]&&selectedChordData.highestFreetNo>5&&<View style={styles.freetNoIndicator}/>}
 {
 selectedChordData.positions[idx]===selectedChordData.highestFreetNo-4+item&&
 <Text
@@ -171,6 +175,17 @@ selectedChordData.positions[idx]===selectedChordData.highestFreetNo-4+item&&
   )
 }
 const styles = StyleSheet.create({
+    freetNoIndicator:{
+        borderColor:'white',
+        backgroundColor:'white',
+        transform: [{ rotate: '45deg' }],
+        borderWidth:2,
+        height:12,
+        width:12,
+        position:'absolute',
+        right:20,
+        top:36
+    },
     margin12:{
         marginLeft:12,
         marginRight:12
@@ -286,6 +301,7 @@ const styles = StyleSheet.create({
         height:100,
         width:265,
         borderTopWidth:2,
+
     
 
 
