@@ -115,10 +115,10 @@ console.log(selectedChordData,'chord data')
 {showList&&<View style={styles.chordsModal}>
    
    <FlatList
-    numColumns={7}
+    numColumns={4}
     keyExtractor={(item, index) => index+item}
      contentContainerStyle={styles.chordlistContainer} 
-     style={styles.searchedChordsContainer} data={datatoshowfromfilter? filteredChords:searchedSingleChordFamily}  renderItem={({item})=><TouchableOpacity onPress={()=>handleChordSelection(item)}><View><Text style={styles.searchedChordsName}>{item}
+     style={styles.searchedChordsContainer} data={datatoshowfromfilter? filteredChords:searchedSingleChordFamily}  renderItem={({item})=><TouchableOpacity onPress={()=>handleChordSelection(item)}><View style={styles.chordNameContainer}><Text style={styles.searchedChordsName}>{item}
     </Text></View></TouchableOpacity>}/>
     </View>}
     </View>
@@ -175,6 +175,10 @@ selectedChordData.positions[idx]===selectedChordData.highestFreetNo-4+item&&
   )
 }
 const styles = StyleSheet.create({
+    chordNameContainer:{
+       
+        marginRight:4,
+    },
     freetNoIndicator:{
         borderColor:'white',
         backgroundColor:'white',
@@ -259,17 +263,15 @@ const styles = StyleSheet.create({
     chordlistContainer:{
        
         width: '100%',
-       
+      
         alignItems:'flex-start',
         justifyContent:'center',
+  
         
        
     },
     searchedChordsContainer:{
-  
         paddingTop:8,
-        paddingRight:4,
-        paddingLeft:4,
         paddingBottom:4,
         backgroundColor:'#2d2d2d',
         borderRadius:12
@@ -279,7 +281,9 @@ const styles = StyleSheet.create({
     searchedChordsName:{
         color: '#1BD79E',
         fontSize:18,
-    marginLeft:8
+    marginLeft:8,
+    marginRight:8,
+    
 },
     fritContainer:{
        
