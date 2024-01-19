@@ -245,8 +245,8 @@ const styles = StyleSheet.create({
         borderWidth:2,
         display:'flex',
         flexDirection:'row',
-        gap:40,
-        width:262
+        gap:43,
+        width:262,
        
     },
     stringText:{
